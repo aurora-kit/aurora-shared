@@ -1,1 +1,25 @@
 // aurora-shared :: Settings
+
+/// Prefix to apply in most classes
+$ae: 'ae' !default;
+
+/// Debug configurations
+$debug-colors: (
+  high: #f42853,
+  mid: #4b527e,
+  low: #b8b9b1,
+  zero: #fff
+);
+
+/// Base font size to calculate in rem, when applied to <html>
+$ae-font-size: 16px !default;
+
+/// Breakpoints
+$ae-breakpoints: (
+  xs: 0,
+  sm: 40em,
+  md: 52em,
+  lg: 64em,
+  xl: 75em
+) !default;
+
