@@ -14,7 +14,8 @@ $debug-colors: (
 
 /// Colors
 $ae-dark-grey: #202020 !default;
-$ae-light-grey: #e5e5e5 !default;
+$ae-mid-grey: #858585 !default;
+$ae-light-grey: #e7e7e7 !default;
 $ae-ultra-light-grey: #fafafa !default;
 
 $ae-red: #fd6d5e !default;
@@ -25,6 +26,26 @@ $ae-yellow: #ffa !default;
 
 /// Base font size to calculate in rem, when applied to <html>
 $ae-font-size: 16px !default;
+
+@import 'modular-scale';
+$ms-base: .875rem, 1rem, 1.125rem;
+$ms-ratio: 1.5;
+
+$ae-alfa:     ms(10);   //  ~54px
+$ae-beta:     ms(9);    //  ~47px
+$ae-gamma:    ms(8);    //  ~40px
+$ae-delta:    ms(7);    //  ~36px
+$ae-epsilon:  ms(6);    //  ~31px
+$ae-zeta:     ms(5);    //  ~27px
+$ae-eta:      ms(4);    //  ~24px
+$ae-theta:    ms(3);    //  ~21px
+$ae-iota:     ms(2);    //  ~18px
+$ae-kappa:    ms(1);    //  ~16px
+$ae-lambda:   ms(0);    //  ~14px
+$ae-mi:       ms(-1);   //  ~12px
+$ae-ni:       ms(-2);   //  ~10px
+
+$ae-space: $ae-mi !default;
 
 /// Breakpoints
 $ae-breakpoints: (
