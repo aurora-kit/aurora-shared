@@ -1,6 +1,5 @@
 // aurora-shared :: Functions
 
-
 /// em :: @function to transform px (an unitless) to em 
 /// @param {Number}  $px                      - Value to calculate in ems
 /// @param {Number}  $fz [$ae-font-size)]     - Base font size to make calculations
@@ -13,6 +12,7 @@
   }
   @return ($px / $fz) * 1em;
 }
+
 
 /// ae-breakpoints :: @mixin to set breakpoints
 /// @param {String | Number}  $min [null]             - Value to set `min-width` query or key map that represents it
@@ -64,4 +64,20 @@
     }
   }
 
+}
+
+
+/// apply-in-breakpoints :: @mixin to apply classes in breakponts with a suffix
+/// suffif to use like ae-no-margin-#{$_bp} will be: ae-no-margin-sm, ae-no-margin-md, ... depending on the map passed
+/// @param {Map}  $bps [$ae-breakpoints]             - Map of breakpoints (name: size, ...)
+@mixin apply-in-breakpoints($bps: $ae-breakpoints) {
+  @each $bp in map-keys($bps) {
+    $_bp: $bp !global; 
+
+    @include ae-breakpoints($bp) {
+      @content;
+    }
+
+    $_bp: null;
+  } 
 }
