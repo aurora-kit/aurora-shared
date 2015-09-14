@@ -69,14 +69,25 @@
 
 /// apply-in-breakpoints :: @mixin to apply classes in breakponts with a suffix
 /// suffif to use like ae-no-margin-#{$_bp} will be: ae-no-margin-sm, ae-no-margin-md, ... depending on the map passed
-/// @param {Map}  $bps [$ae-breakpoints]             - Map of breakpoints (name: size, ...)
-@mixin apply-in-breakpoints($bps: $ae-breakpoints) {
+/// @param {Map}      $bps [$ae-breakpoints]             - Map of breakpoints (name: size, ...)
+/// @param {Boolean}  $isolated [false]                  - To the code between the actual and next breakpoint
+@mixin apply-in-breakpoints($bps: $ae-breakpoints, $isolated: false) {
   @each $bp in map-keys($bps) {
     $_bp: $bp !global; 
+    @if $isolated {
+      $keys: map-keys($bps);
+      $i: index($keys, $bp);
+      $n-bp: if($i < length($keys), nth($keys, $i + 1), null);
 
-    @include ae-breakpoints($bp) {
-      @content;
+      @include ae-breakpoints($bp, $n-bp) {
+        @content;
+      }
+    } @else {
+      @include ae-breakpoints($bp) {
+        @content;
+      }
     }
+    
 
     $_bp: null;
   } 
