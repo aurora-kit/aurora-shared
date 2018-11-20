@@ -1,6 +1,6 @@
 // aurora-shared :: Functions
 
-/// em :: @function to transform px (an unitless) to em 
+/// em :: @function to transform px (an unitless) to em
 /// @param {Number}  $px                      - Value to calculate in ems
 /// @param {Number}  $fz [$ae-font-size)]     - Base font size to make calculations
 @function em($px, $fz: $ae-font-size) {
@@ -13,39 +13,53 @@
   @return ($px / $fz) * 1em;
 }
 
-
 /// ae-breakpoints :: @mixin to set breakpoints
 /// @param {String | Number}  $min [null]             - Value to set `min-width` query or key map that represents it
 /// @param {String | Number}  $max [null]             - Value to set `max-width` query or key map that represents it
 /// @param {String}           $type [all]             - Media type like `screen` or `print`
 /// @param {Map}              $bps [$ae-breakpoints]  - Map to find $min or $max params if necessary
-@mixin ae-breakpoints($min:null, $max: null, $type: all, $bps: $ae-breakpoints) {
-  
+@mixin ae-breakpoints(
+  $min: null,
+  $max: null,
+  $type: all,
+  $bps: $ae-breakpoints
+) {
+  $min-val: null;
+  $max-val: null;
+
   // Min
   @if type-of($min) == number {
     $min-val: if($min != 0, em($min), 0);
   } @else {
-    $min-val: if(map-has-key($bps, $min), if(map-get($bps, $min) != 0, em(map-get($bps, $min)), 0), null);
+    $min-val: if(
+      map-has-key($bps, $min),
+      if(map-get($bps, $min) != 0, em(map-get($bps, $min)), 0),
+      null
+    );
   }
 
   // Max
   @if type-of($max) == number {
-      $max-val: em($max);
+    $max-val: em($max);
   } @else {
-      $max-val: if(map-has-key($bps, $max), em(map-get($bps, $max) - .01em), null);
+    $max-val: if(
+      map-has-key($bps, $max),
+      em(map-get($bps, $max) - 0.01em),
+      null
+    );
   }
 
   // Output
   $query: null;
   $min-query: if($min-val and $min-val != 0, '(min-width: #{$min-val})', null);
   $max-query: if($max-val, '(max-width: #{$max-val})', null);
-  $type-query: if($type == all and ($min-val or $max-val), null, $type );
+  $type-query: if($type == all and ($min-val or $max-val), null, $type);
   $queries: (
     type: $type-query,
     min: $min-query,
-    max: $max-query
+    max: $max-query,
   );
-  
+
   @each $prop, $value in $queries {
     @if map-get($queries, $prop) {
       @if not $query {
@@ -55,7 +69,7 @@
       }
     }
   }
-  
+
   @if $min-val and not $min-query and not $max-query {
     @content;
   } @else {
@@ -63,9 +77,7 @@
       @content;
     }
   }
-
 }
-
 
 /// apply-in-breakpoints :: @mixin to apply classes in breakponts with a suffix
 /// suffif to use like ae-no-margin-#{$_bp} will be: ae-no-margin-sm, ae-no-margin-md, ... depending on the map passed
@@ -73,7 +85,7 @@
 /// @param {Boolean}  $isolated [false]                  - To the code between the actual and next breakpoint
 @mixin apply-in-breakpoints($bps: $ae-breakpoints, $isolated: false) {
   @each $bp in map-keys($bps) {
-    $_bp: $bp !global; 
+    $_bp: $bp !global;
     @if $isolated {
       $keys: map-keys($bps);
       $i: index($keys, $bp);
@@ -87,8 +99,7 @@
         @content;
       }
     }
-    
 
     $_bp: null;
-  } 
+  }
 }
